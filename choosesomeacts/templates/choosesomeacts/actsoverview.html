@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}pick what you like{% endblock title%}
+
+
+{% block contentcontainer %}
+	<!-- WARNINGS div class="row">
+		<div class="span12">
+			<div class="alert fade in">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<p>This is a <strong>prototype</strong> version of a very simple tool I am trying to build so I can easily...</p>
+				<ul>
+					<li>see who is playing at a festival</li>
+					<li>pre-listen to some of their tracks if I don't know the act</li>
+					<li>mark them as "really want to see", "yeah, why not?" and "this causes pain in my ears.."</li>
+				</ul>
+				<p>In the long run, I also would like to</p>
+				<ul>
+					<li>create a personal running order from it</li>
+					<li>that can be auto-updated if the festival crew posts shifts in the overall running order</li>
+					<li>and informs me about potential overlapping conflicts where I can decide what to prioritize</li>
+					<li>oh and I'd love to match my running order with that of friends!</li>
+				</ul>
+				<p>This really early test version only works for the Fusion 2013 festival with minimum features.</p>
+			</div>
+			
+			<div class="alert alert-error fade in">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>You need to be logged into facebook</strong> because this tool saves your choices of bands in connection to your facebook user.
+            </div>
+		</div>
+	</div-->
+	
+	<div class="row">
+		<div class="span12">
+		<h1>{{ SelectedFestival }} {{ SelectedFestivalEditionYear }}, {{ SelectedFestivalEditionLocation }} - current lineup:</h1>
+		</div>
+	</div>
+
+<!--  NOW THE ACTS -->
+{% if OverviewList %}
+	{% for OverviewListItem in OverviewList %}
+	<div class="row"><div class="span12"><hr></div></div>
+	<div class="row">
+		<div class="span12"><h3>{{ OverviewListItem.Artist.Name }} <small>{{ OverviewListItem.ArtistDescription.Text}}</small></h3></div>
+	</div>
+	
+	<div class="row">
+		<div class="span2">
+			<p>{{ OverviewListItem.ArtistDescription.Text}}</p>
+			<ul>
+				<li><a href="{{ OverviewListItem.Artist.HomepageURL }}" target="_blank">homepage</a></li>
+				<li><a href="{{ OverviewListItem.Artist.FacebookURL }}" target="_blank">facebook</a></li>
+			</ul>
+		</div>
+		
+		<div class="span3">
+			{% autoescape off %}{{ OverviewListItem.Sample1.EmbedCode }}{% endautoescape %}
+		</div>
+		
+		<div class="span3">
+			{% autoescape off %}{{ OverviewListItem.Sample2.EmbedCode }}{% endautoescape %}
+		</div>
+		
+		<div class="span3">
+			{% autoescape off %}{{ OverviewListItem.Sample3.EmbedCode }}{% endautoescape %}
+		</div>
+		
+		<div class="span1">
+			<div class="btn-group btn-group-vertical pull-right" data-toggle="buttons-radio" valign="middle">
+				<button type="button" class="btn btn-success btn-block">&nbsp;&nbsp;YES!&nbsp;&nbsp;</button>
+				<button type="button" class="btn btn-warning btn-block">&nbsp;&nbsp;hmm&nbsp;&nbsp;</button>
+				<button type="button" class="btn btn-danger btn-block">&nbsp;&nbsp;NO!&nbsp;&nbsp;</button>
+			</div>
+		</div>			
+	</div>
+	
+	{% endfor %}
+	
+{% else %}
+	<div class="row">no artists selected</div>
+{% endif %}
+	
+	<!-- end of acts, last BR -->
+	<div class="row"><div class="span12"><hr></div></div>
+{% endblock contentcontainer%}

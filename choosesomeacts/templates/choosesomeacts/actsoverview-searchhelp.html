@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}pick what you like{% endblock title%}
+
+{% block contentcontainer %}
+
+<!-- MSG FOR COOKIE STATUS -->
+{% if TestCookieWorked %}
+	<!--div class="row"><div class="span12">test cookie worked</div></div-->
+{% else %}
+	<!--div class="row"><div class="span12">cookie did not work... maybe deactivated?</div></div-->
+{% endif %}
+
+
+<!-- FESTIVAL INFORMATION -->
+{% if SearchHelpList %}
+	
+	<div class="row">
+		<div class="span12">
+		<h1>{{ SelectedFestival }} {{ SelectedFestivalEditionYear }}, {{ SelectedFestivalEditionLocation }}</h1>
+		<p>{{ SearchHelpList|length }} acts crawled from website...</p>
+		</div>
+	</div>
+
+<!--  NOW THE ACTS -->
+<script language="JavaScript">
+function postArtistPreference(Artist, Preference)
+{
+$.post('/choosesomeacts/update_session/', {'Artist': Artist, 'Preference': Preference});
+}
+</script>
+
+
+	{% for SearchListItem in SearchHelpList %}
+	<div class="row"><div class="span12"><hr></div></div>
+	<div class="row"{% if SearchListItem.ArtistPreference %} style="opacity: .5"{% endif %}>
+		<div class="span12"><h3>{{ SearchListItem.Artist }} <small>stage "unknown" from unknown till unknown</small></h3></div>
+	</div>
+	
+	<div class="row"{% if SearchListItem.ArtistPreference %} style="opacity: .5"{% endif %}>
+		<div class="span12">
+			<p>{{ SearchListItem.ArtistDescription}}</p>
+		</div>	
+	</div>
+	<div class="row"{% if SearchListItem.ArtistPreference %} style="opacity: .5"{% endif %}>
+		<div class="span6">
+			<a href="http://www.youtube.com/results?search_query={{ SearchListItem.Artist }}" target="_blank">search YouTube</a> | 
+			<a href="https://soundcloud.com/search?q={{ SearchListItem.Artist }}" target="_blank">search SoundCloud</a> | 
+			<a href="https://play.spotify.com/search/{{ SearchListItem.Artist }}" target="_blank">search Spotify</a>
+			{% if SearchListItem.ArtistHomepage %} | <a href="{{ SearchListItem.ArtistHomepage }}" target="_blank">homepage</a>{% endif %}
+		</div>
+		<div class="span6">
+			<div class="btn-group pull-right" data-toggle="buttons-radio">
+				<button type="button" class="btn btn-success{% if SearchListItem.ArtistPreference == 'yes' %} active{% endif %}" onclick="postArtistPreference('{{ SearchListItem.Artist }}','yes')">YES!</button>
+				<button type="button" class="btn btn-warning{% if SearchListItem.ArtistPreference == 'maybe' %} active{% endif %}" onclick="postArtistPreference('{{ SearchListItem.Artist }}','maybe')">maybe...</button>
+				<button type="button" class="btn btn-danger{% if SearchListItem.ArtistPreference == 'no' %} active{% endif %}" onclick="postArtistPreference('{{ SearchListItem.Artist }}','no')">NO!</button>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+{% else %}
+	<div class="row">nothing found - probably an error?</div>
+{% endif %}
+	
+	<!-- end of acts, last BR -->
+	<div class="row"><div class="span12"><hr></div></div>
+{% endblock contentcontainer%}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}pick what you like{% endblock title%}
+
+
+{% block contentcontainer %}
+
+	<div class="row">
+		<div class="span12">
+			<div class="alert fade in">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<p>This is a <strong>prototype</strong> version of a very simple tool I am trying to build so I can easily...</p>
+				<ul>
+					<li>see who is playing at a festival</li>
+					<li>pre-listen to some of their tracks if I don't know the act</li>
+					<li>mark them as "really want to see", "yeah, why not?" and "this causes pain in my ears.."</li>
+				</ul>
+				<p>In the long run, I also would like to</p>
+				<ul>
+					<li>create a personal running order from it</li>
+					<li>that can be auto-updated if the festival crew posts shifts in the overall running order</li>
+					<li>and informs me about potential overlapping conflicts where I can decide what to prioritize</li>
+					<li>oh and I'd love to match my running order with that of friends!</li>
+				</ul>
+				<p>This really early test version only works for the Fusion 2013 festival with minimum features.</p>
+			</div>
+			
+			<!--div class="alert alert-error fade in">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>You need to be logged into facebook</strong> because this tool saves your choices of bands in connection to your facebook user.
+            </div-->
+		</div>
+	</div>
+	<div class="row"><div class="span12">
+		<a href="acts/">List from Database<br/>
+		<a href="fusion/">Fusion list as crawled from Fusiuon website: Overview with Search Help</a><br/>
+	</div></div>
+{% endblock contentcontainer%}
