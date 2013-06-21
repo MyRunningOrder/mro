@@ -3,3 +3,4 @@ South==0.8.1
 dj-database-url==0.2.1
 psycopg2==2.4.6
 gunicorn==0.17.2
+beautifulsoup4==4.2.1
