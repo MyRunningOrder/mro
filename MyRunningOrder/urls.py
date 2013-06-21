@@ -9,7 +9,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'MyRunningOrder.views.home', name='home'),
     # url(r'^MyRunningOrder/', include('MyRunningOrder.foo.urls')),
     
-    url(r'^$', include('choosesomeacts.urls')),
     url(r'^choosesomeacts/', include('choosesomeacts.urls')),
 
     url(r'^static/(.*)$', 'django.views.static.serve', {'document_root':'static/'}),
