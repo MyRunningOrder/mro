@@ -4,13 +4,6 @@
 
 {% block contentcontainer %}
 
-<!-- MSG FOR COOKIE STATUS -->
-{% if TestCookieWorked %}
-	<!--div class="row"><div class="span12">test cookie worked</div></div-->
-{% else %}
-	<!--div class="row"><div class="span12">cookie did not work... maybe deactivated?</div></div-->
-{% endif %}
-
 
 <!-- FESTIVAL INFORMATION -->
 {% if SearchHelpList %}
@@ -22,11 +15,32 @@
 		</div>
 	</div>
 
+
+{% if user.is_authenticated %}
+	<!--div class="row"><div class="span12">test cookie worked</div></div-->
+{% else %}
+	<div class="row">
+		<div class="span12">
+			<div class="alert alert-error fade in">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<p>This tool will store your selections in a cookie in your browser for approx. two weeks. If you change the computer, browser or clear cookies, your selections will be lost. I am working on a better version...</p>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+
+
 <!--  NOW THE ACTS -->
-<script language="JavaScript">
+<script>
 function postArtistPreference(Artist, Preference)
 {
 $.post('/choosesomeacts/update_session/', {'Artist': Artist, 'Preference': Preference});
+}
+
+function checkAndAskForAuth()
+{
+	alert();
 }
 </script>
 

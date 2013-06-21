@@ -3,10 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from choosesomeacts.models import *
 from bs4 import BeautifulSoup
-from django.contrib.sessions.backends.db import SessionStore
 import urllib2
 import datetime
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login
 
 class OverviewListItem(models.Model):
 	Artist = models.ForeignKey('Artist')
@@ -139,8 +139,74 @@ def update_session(request):
 	Artist = request.POST['Artist']
 	Preference = request.POST['Preference']
 	request.session["Artist_" + Artist] = Preference
+	
+	if request.user.is_authenticated():
+		# missing: if user is logged in, sync session data and user data
+		print "got an authed user"
+
+
 	return HttpResponse('ok')
 	
 def showMyActs(request):
-	print "show my acts entered.."
-	return render(request, 'choosesomeacts/index.html')
+	SelectedFestival = "Fusion"
+	SelectedFestivalEditionYear = 2013
+	SelectedFestivalEditionLocation = "Kulturkosmos Laerz"
+	
+	YesList = []
+	NoList = []
+	MaybeList = []
+	AllInSession = request.session.keys()
+	
+	for n in range(0, len(AllInSession)):
+		if (str(AllInSession[n])[0:7] == "Artist_"):
+			ArtistName = AllInSession[n][7:]
+			Preference = request.session.__getitem__(AllInSession[n])
+			if Preference == "yes":
+				YesList.append(ArtistName)
+			elif Preference == "no":
+				NoList.append(ArtistName)
+			elif Preference == "maybe":
+				MaybeList.append(ArtistName)
+	
+	
+	
+	
+	
+	
+	context = {'YesList': YesList,'NoList': NoList,'MaybeList': MaybeList,
+	'SelectedFestival': SelectedFestival,
+	'SelectedFestivalEditionYear': SelectedFestivalEditionYear,
+	'SelectedFestivalEditionLocation': SelectedFestivalEditionLocation,}	
+	return render(request, 'choosesomeacts/myacts.html', context)
+
+def loginUserView(request):
+	# this view basically shows the login-form if the user is not logged in
+	print "here we could sign in a user.."
+	return render(request, 'choosesomeacts/login.html')
+	
+def loginUserAndCopyData(request):
+	#first case: create a new user
+	# 1. create user
+	# 2. copyy his session data into his user data
+	
+	#second case: try to log in a user
+	
+	username = request.POST['username']
+	password = request.POST['password']
+	user = authenticate(username, password)
+	if user is not None:
+		# the password verified for the user
+		if user.is_active:
+			login(request, user)
+			print("User is valid, active and authenticated")
+		else:
+			print("The password is valid, but the account has been disabled!")
+	else:
+		# the authentication system was unable to verify the username and password
+		print("The username and password were incorrect.")
+	
+	# if login fails, give feedback
+	
+	#if login successful, load user data into session data
+	
+	return render(request, 'choosesomeacts/login.html')
