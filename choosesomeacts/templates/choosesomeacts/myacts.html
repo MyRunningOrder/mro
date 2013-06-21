@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}pick what you like{% endblock title%}
+
+
+{% block contentcontainer %}
+	<div class="row">
+		<div class="span12">
+			<h1>{{ SelectedFestival }} {{ SelectedFestivalEditionYear }}, {{ SelectedFestivalEditionLocation }}</h1>
+		</div>
+	</div>
+
+<!-- REALLY WANT TO SEE -->
+	<div class="row"><div class="span12"><h4>Really want to see</h4></div></div>
+{% if YesList %}
+	<div class="row"><div class="span12"><ul>
+		{% for Item in YesList %}
+			<li>{{ Item }}</li>
+		{% endfor %}
+	</ul></div></div>
+{% else %}
+	<div class="row">
+		<div class="span12">nothin selected</div>
+	</div>
+{% endif %}
+	<div class="row">
+		<div class="span12"><hr></div>
+	</div>
+	
+<!-- Maybe WANT TO SEE -->
+	<div class="row"><div class="span12"><h4>Maybe want to see</h4></div></div>
+{% if MaybeList %}
+	<div class="row"><div class="span12"><ul>
+		{% for Item in MaybeList %}
+			<li>{{ Item }}</li>
+		{% endfor %}
+	</ul></div></div>
+{% else %}
+	<div class="row">
+		<div class="span12">nothin selected</div>
+	</div>
+{% endif %}
+	<div class="row">
+		<div class="span12"><hr></div>
+	</div>
+	
+<!-- ´NOT WANT TO SEE -->
+	<div class="row"><div class="span12"><h4>Totally not want to see</h4></div></div>
+{% if NoList %}
+	<div class="row"><div class="span12"><ul>
+		{% for Item in NoList %}
+			<li>{{ Item }}</li>
+		{% endfor %}
+	</ul></div></div>
+{% else %}
+	<div class="row">
+		<div class="span12">nothin selected</div>
+	</div>
+{% endif %}
+	<div class="row">
+		<div class="span12"><hr></div>
+	</div>	
+
+	
+{% endblock contentcontainer%}
